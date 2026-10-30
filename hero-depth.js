@@ -49,7 +49,8 @@
   var photoTex = null, size = [0, 0], ready = false;
   function fit(){
     var r = fig.getBoundingClientRect(), dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
-    var w = Math.min(Math.ceil(r.width * dpr), img.naturalWidth), h = Math.round(w * img.naturalHeight / img.naturalWidth);
+    // naturalWidth is scaled by the srcset density, so it is used only for the photo's proportions
+    var w = Math.ceil(r.width * dpr), h = Math.round(w * img.naturalHeight / img.naturalWidth);
     if (!w || (w === size[0] && h === size[1])) return Promise.resolve();
     size = [w, h];
     return createImageBitmap(img, {resizeWidth: w, resizeHeight: h, resizeQuality: "high"}).then(function(bmp){
