@@ -51,7 +51,8 @@
     var r = fig.getBoundingClientRect(), dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
     // naturalWidth is scaled by the srcset density, so it is used only for the photo's proportions
     var w = Math.ceil(r.width * dpr), h = Math.round(w * img.naturalHeight / img.naturalWidth);
-    if (!w || (w === size[0] && h === size[1])) return Promise.resolve();
+    // the size is unknown for a moment while the browser swaps to another srcset file after a resize
+    if (!w || !h || (w === size[0] && h === size[1])) return Promise.resolve();
     size = [w, h];
     return createImageBitmap(img, {resizeWidth: w, resizeHeight: h, resizeQuality: "high"}).then(function(bmp){
       canvas.width = w; canvas.height = h;
@@ -103,6 +104,6 @@
     draw();
     fig.appendChild(canvas);
     requestAnimationFrame(function(){ canvas.classList.add("on"); });
-    new ResizeObserver(function(){ fit(); }).observe(fig);
+    new ResizeObserver(function(){ fit().catch(function(){}); }).observe(fig);
   }).catch(function(){});
 })();

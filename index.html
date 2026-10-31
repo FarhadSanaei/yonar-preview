@@ -12,8 +12,8 @@
 <style>
   /* Studio version, Catalogue direction: a navy page, warm off-white type, and yellow kept for the logo, the main
      action, the selected step and the closing contact block. One Persian typeface (Vazirmatn); JetBrains Mono only
-     for numbers, sizes, product codes and G-code. Photos, clips and the drawing have 20px corners, cards and the step
-     list 16px, and buttons, inputs and chips 3px. Each section has its own background (deep navy, a lighter navy for
+     for numbers, sizes, product codes and G-code. Photos, clips and the drawing have 26px corners, cards and the step
+     list 20px, and buttons, inputs and chips 6px. Each section has its own background (deep navy, a lighter navy for
      the company facts, a light steel band, the yellow block), with room between them. No glows.
      Buttons, chips and cards look slightly raised: a soft shade from top to bottom, a thin highlight along the top
      edge and a soft shadow underneath. Inputs and pressed chips sit slightly sunken, and a button sinks 1px when
@@ -48,9 +48,9 @@
     --drop-sm:0 1px 2px rgba(0,0,0,.35),0 3px 8px rgba(0,0,0,.22);
     --drop:0 2px 4px rgba(0,0,0,.25),0 14px 30px rgba(0,0,0,.3);
     --sink:inset 0 2px 4px rgba(0,0,0,.4);
-    --r:3px;
-    --r-media:20px;
-    --r-card:16px;
+    --r:6px;
+    --r-media:26px;
+    --r-card:20px;
     --h:48px;
     --h-sm:44px;
     --t-xs:13px;
@@ -200,7 +200,7 @@
      step opened in place to show its explanation and its tool */
   /* the part switch: a sunken track with the chosen part raised out of it */
   .switch{display:inline-flex;gap:3px;padding:3px;margin-top:22px;border:1px solid var(--edge);border-radius:var(--r);background:#0a131d;box-shadow:var(--sink)}
-  .switch button{min-height:36px;padding:0 18px;border:0;border-radius:2px;background:none;cursor:pointer;font-weight:500;color:var(--muted);transition:background-color .15s,color .15s,box-shadow .15s}
+  .switch button{min-height:36px;padding:0 18px;border:0;border-radius:4px;background:none;cursor:pointer;font-weight:500;color:var(--muted);transition:background-color .15s,color .15s,box-shadow .15s}
   .switch button:hover{color:var(--ink)}
   .switch button[aria-selected="true"]{
     background:linear-gradient(180deg,#fbfaf4,#e2e0d6);color:var(--navy);
@@ -303,15 +303,33 @@
   .panel .op{font-size:var(--t-sm);color:var(--muted)}
   .panel h2{font-family:var(--display);font-size:var(--t-h3);font-weight:600;line-height:1.6}
   .panel .d{color:var(--muted)}
-  .panel .m{font-family:var(--mono);direction:ltr;text-align:right;color:var(--blue);font-size:var(--t-sm)}
-  .panel .or{font-size:var(--t-xs);color:var(--muted);margin-bottom:-4px}
-  .legend .panel{border:0;border-radius:0;padding:0 12px 14px;background:none;box-shadow:none}
+  .panel .dims{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+  .panel .dims span{font-size:var(--t-xs);color:var(--muted);margin-inline-end:4px}
+  .panel .dims .code{font-size:var(--t-xs);line-height:1.8;color:var(--blue);padding:1px 8px;border:1px solid var(--line);border-radius:var(--r);background:#0b141f;box-shadow:var(--sink)}
+  .panel .ask{justify-self:start}
+  /* inside the list, the open step lines up with its title, after the step number */
+  .legend .panel{border:0;border-radius:0;padding:0 12px 16px;padding-inline-start:52px;gap:12px;background:none;box-shadow:none}
   .legend .panel :is(.op,h2){display:none}
-  .pcard{display:grid;grid-template-columns:64px 1fr;gap:12px;align-items:center;border-top:1px solid var(--line);padding-top:12px}
-  .pcard img{width:64px;height:64px;object-fit:contain;background:#fff;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.3)}
-  .pcard b{font-weight:500;line-height:1.6;display:block}
+  /* the step's tools: one sunken list, one row per tool */
+  .tools{display:grid;gap:8px;margin-top:2px}
+  .tools-h{font-size:var(--t-xs);color:var(--muted)}
+  .tools ul + .tools-h{margin-top:8px}
+  .tools ul{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:16px;background:rgba(5,10,16,.35);box-shadow:var(--sink)}
+  /* one row per tool: the photo, then the name with brand and code, and the add control under the name */
+  .pcard{display:grid;grid-template-columns:56px minmax(0,1fr);gap:4px 14px;align-items:center;padding:12px 14px}
+  .pcard + .pcard{border-top:1px solid var(--line)}
+  .pcard .pic{grid-row:span 2;align-self:start}
+  .pcard .pic img{width:56px;height:56px;object-fit:contain;background:#fff;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+  .pcard .txt{min-width:0}
+  .pcard .nm{display:block;font-size:var(--t-sm);font-weight:500;line-height:1.6;color:var(--ink);text-decoration:none}
+  .pcard .nm:hover{text-decoration:underline;text-underline-offset:4px}
   .pcard .meta{display:block;font-size:var(--t-xs);color:var(--muted);line-height:1.6}
-  .pcard .row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+  .pcard .ctl{width:min(100%,216px);margin-top:6px}
+  /* the add-to-inquiry control is the same everywhere: a raised button with a yellow plus, which turns into a
+     quantity stepper of the same size once the tool is in the inquiry */
+  .add{gap:8px}
+  .add .plus{color:var(--yellow);font-size:1.25em;font-weight:600;line-height:1}
+  .ctl > *,.prod .add{width:100%}
 
   /* bench: calculators on a light steel band, with the dark readout standing on it */
   #bench{
@@ -471,7 +489,7 @@
   .x:hover{background:var(--raise-hover);border-color:var(--ink)}
   .tray ul{list-style:none;margin:0;padding:0;overflow:auto;display:grid;gap:0;flex:1 1 auto;min-height:0;align-content:start}
   .tray li{display:grid;grid-template-columns:52px 1fr auto;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:10px 0}
-  .tray li img{width:52px;height:52px;object-fit:contain;background:#fff;border-radius:10px}
+  .tray li img{width:52px;height:52px;object-fit:contain;background:#fff;border-radius:12px}
   .tray li b{font-size:var(--t-sm);font-weight:500;line-height:1.6;display:block}
   .tray li small{color:var(--muted);font-size:var(--t-xs)}
   .tray .qty span{min-width:22px;text-align:center}
@@ -686,7 +704,7 @@
         <div class="side" id="side">
           <ol class="legend" id="legend" aria-label="مراحل ساخت"></ol>
           <aside class="panel" id="panel" aria-live="polite"></aside>
-          <button class="btn btn-o kit" id="kitBtn">+ همه ابزارهای این قطعه</button>
+          <button class="btn btn-o add kit" id="kitBtn">همه ابزارهای این قطعه</button>
         </div>
       </div>
     </div>
@@ -901,6 +919,10 @@
     cut15:{n:"اینسرت برش ضخامت ۱.۵", op:"parting", img:IMG+"yonartools-product-cutting-insert-348x348.png", href:URLP+"%d8%a7%db%8c%d9%86%d8%b3%d8%b1%d8%aa-%d8%a8%d8%b1%d8%b4-%d8%b6%d8%ae%d8%a7%d9%85%d8%aa-1-5/"},
     collet:{n:"کولت دستگاه‌های سوییس تایپ", op:"holding", img:IMG+"yonartools-product-swiss-type-collet-348x348.png", href:URLP+"%da%a9%d9%88%d9%84%d8%aa-%d9%87%d8%a7%db%8c-%d8%af%d8%b3%d8%aa%da%af%d8%a7%d9%87-%d9%87%d8%a7%db%8c-%d8%b3%d9%88%db%8c%db%8c%d8%b3-%d8%aa%d8%a7%db%8c%d9%be/"}
   };
+  P.bmbr = {n:"هد بروچ ثابت BR", op:"broach", img:IMG+"bm-rotary-broaching-holder-yellow-background-v2-348x348.jpg", href:URLP+"brighetti-meccanica-br-%d9%87%d8%af-%d8%a8%d8%b1%d9%88%da%86-%d8%ab%d8%a7%d8%a8%d8%aa-%d8%a7%d8%b3%d8%aa%d8%a7%d9%86%d8%af%d8%a7%d8%b1%d8%af-standard-fixed-broaching-head/"};
+  P.broach = {n:"ابزارهای بروچینگ", op:"broach", img:IMG+"yonartools-product-broaches-348x348.png", href:URLP+"%d8%a7%d9%86%d9%88%d8%a7%d8%b9-%d8%a7%d8%a8%d8%b2%d8%a7%d8%b1%d9%87%d8%a7%db%8c-%d8%a8%d8%b1%d9%88%da%86%db%8c%d9%86%da%af/"};
+  P.guide = {n:"مقر اسپیندل سوییس‌تایپ", op:"holding", img:IMG+"yonartools-product-sub-spindel-hole-348x348.png", href:URLP+"%d9%85%d9%82%d8%b1-%d8%a7%d8%b3%d9%be%db%8c%d9%86%d8%af%d9%84-%d8%b3%d9%88%db%8c%db%8c%d8%b3-%d8%aa%d8%a7%db%8c%d9%be/"};
+  P.smallcollet = {n:"کولت‌های خاص قطعات ریز", op:"holding", img:IMG+"yonartools-product-special-collets-for-small-parts-348x348.png", href:URLP+"%da%a9%d9%88%d9%84%d8%aa-%d9%87%d8%a7%db%8c-%d8%ae%d8%a7%d8%b5-%d9%85%d8%aa%d9%86%d8%a7%d8%b3%d8%a8-%d8%a8%d8%a7-%d9%82%d8%b7%d8%b9%d8%a7%d8%aa-%d8%b1%db%8c%d8%b2/"};
   var OPS = {turning:"روتراشی", thread:"رزوه", broach:"بروچ", boring:"داخل‌تراشی", parting:"برش", holding:"نگه‌دارنده"};
 
   /* ---------- part features (screw = CAD Part7, implant = BLT reference model; sizes measured from the 3D models) ---------- */
@@ -953,7 +975,7 @@
       li.innerHTML = '<button data-f="' + f + '" aria-pressed="false"><span class="n">' + fa(i + 1) + '</span><span><b>' + d.t + '</b><small>' + d.op + '</small></span></button>';
       legend.appendChild(li);
     });
-    $("kitBtn").textContent = "+ همه ابزارهای این " + (part === "screw" ? "پیچ" : "ایمپلنت") + " (" + fa(kit().length) + " قلم)";
+    $("kitBtn").innerHTML = '<span class="plus" aria-hidden="true">+</span>همه ابزارهای این ' + (part === "screw" ? "پیچ" : "ایمپلنت") + " (" + fa(kit().length) + " قلم)";
     orient();
   }
 
@@ -1007,20 +1029,22 @@
   }
 
   function pcard(id){
-    var p = P[id], q = tray[id];
-    return '<div class="pcard"><img src="' + p.img + '" alt="" loading="lazy"><div><b>' + p.n + '</b>' + meta(id) + '<div class="row">' +
-      '<button class="btn btn-y btn-sm" data-add="' + id + '">' + (q ? "✓ در استعلام (" + fa(q) + ")" : "+ افزودن به استعلام") + '</button>' +
-      '<a class="btn btn-o btn-sm" href="' + p.href + '" target="_blank" rel="noopener">جزئیات</a></div></div></div>';
+    var p = P[id];
+    return '<li class="pcard"><a class="pic" href="' + p.href + '" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="' + p.img + '" alt="" loading="lazy"></a>' +
+      '<div class="txt"><a class="nm" href="' + p.href + '" target="_blank" rel="noopener">' + p.n + '</a>' + meta(id) + '</div>' +
+      '<div class="ctl">' + (tray[id] ? qtyCtl(id) : addBtn(id)) + '</div></li>';
   }
   function renderPanel(){
     var d = feat(sel), order = PARTS[part].order, i = order.indexOf(sel), m = PARTS[part].m[sel];
-    var html = '<p class="op">مرحله ' + fa(i + 1) + ' از ' + fa(order.length) + ' — ' + d.op + '</p><h2>' + d.t + '</h2>' +
-      (m ? '<p class="m">' + m + '</p>' : '') + '<p class="d">' + d.d + '</p>';
-    if (d.p.length){
-      html += pcard(d.p[0]);
-      if (d.p[1]) html += '<p class="or">یا</p>' + pcard(d.p[1]);
+    var html = '<p class="op">مرحله ' + fa(i + 1) + ' از ' + fa(order.length) + ' — ' + d.op + '</p><h2>' + d.t + '</h2><p class="d">' + d.d + '</p>' +
+      (m ? '<p class="dims"><span>ابعاد</span>' + m.split(" · ").map(function(x){ return '<bdi dir="ltr" class="code">' + x + '</bdi>'; }).join("") + '</p>' : '');
+    var groups = d.g || (d.p.length ? [["ابزار این مرحله", d.p]] : []);   // by role; see GROUPS
+    if (groups.length){
+      html += '<div class="tools">' + groups.map(function(g){
+        return '<p class="tools-h">' + g[0] + (g[1].length > 1 ? " · یکی از این دو" : "") + '</p><ul>' + g[1].map(function(id){ return pcard(id); }).join("") + '</ul>';
+      }).join("") + '</div>';
     } else {
-      html += '<a class="btn btn-o btn-sm" href="' + waLink("سلام، برای «" + d.t + "» ابزار مناسب می‌خواهم.") + '" target="_blank" rel="noopener">ابزار این مرحله را از کارشناس بپرسید</a>';
+      html += '<a class="btn btn-o btn-sm ask" href="' + waLink("سلام، برای «" + d.t + "» ابزار مناسب می‌خواهم.") + '" target="_blank" rel="noopener">ابزار این مرحله را از کارشناس بپرسید</a>';
     }
     $("panel").innerHTML = html;
     placePanel();
@@ -1088,7 +1112,7 @@
 
   function kit(){
     var seen = {}, out = [];
-    PARTS[part].order.forEach(function(f){ var id = feat(f).p[0]; if (id && !seen[id]){ seen[id] = 1; out.push(id); } });
+    PARTS[part].order.forEach(function(f){ (feat(f).g || []).forEach(function(g){ var id = g[1][0]; if (id && !seen[id]){ seen[id] = 1; out.push(id); } }); });
     return out;
   }
 
@@ -1218,7 +1242,7 @@
     $("grid").innerHTML = ids.map(function(id){
       var p = P[id];
       return '<article class="prod"><a class="pic" href="' + p.href + '" target="_blank" rel="noopener"><img src="' + p.img + '" alt="" loading="lazy"></a><div class="body"><span class="tag">' + OPS[p.op] + '</span><h3>' + p.n + '</h3>' + specs(id) +
-        (tray[id] ? qtyCtl(id) : '<button class="btn btn-o btn-sm" data-add="' + id + '">+ افزودن به استعلام</button>') + '</div></article>';
+        (tray[id] ? qtyCtl(id) : addBtn(id)) + '</div></article>';
     }).join("");
     var nr = $("noResult"), q = query.trim();
     nr.hidden = !q;
@@ -1326,8 +1350,30 @@
     pcm:{b:"PCM", c:["کد", "6181 · Ø8"], u:"بروچ هگز ۳ تا ۱۲ میلی‌متر"},
     r02:{c:["اندازه", "R0.2"], u:"داخل‌تراشی دقیق در قطرهای کوچک"},
     cut15:{c:["اندازه", "1.5 mm"], u:"جدا کردن قطعه از میلگرد در قطرهای کوچک"},
-    collet:{u:"اسپیندل دستگاه‌های <bdi>Citizen</bdi>، <bdi>Star</bdi> و <bdi>Tsugami</bdi>"}   // bdi keeps the names in order
+    collet:{u:"اسپیندل دستگاه‌های <bdi>Citizen</bdi>، <bdi>Star</bdi> و <bdi>Tsugami</bdi>"},   // bdi keeps the names in order
+    bmbr:{b:"BRIGHETTI MECCANICA", c:["سایز", "G5 – G25"], u:"هد بروچ ثابت برای سوراخ کور یا عبوری"},
+    broach:{u:"پروفیل داخلی چندضلعی، جاکلیدی و شیار"},
+    guide:{u:"بوش راهنما؛ پشتیبانی میلگرد نزدیک نقطه برش"},
+    smallcollet:{c:["دقت بستن", "≤ 0.003 mm"], u:"بستن قطعات ریز پزشکی و دندانی"}
   };
+  KW.bmbr = "bm brighetti meccanica br g5 broach head holder بریگتی";
+  KW.broach = "broach broaching hex torx keyway بروچ";
+  KW.guide = "guide bush bushing spindle گاید بوش";
+  KW.smallcollet = "collet small parts micro کولت ریز";
+
+  /* ---------- the tools of each step, by role: tools in one group are alternatives, and the groups go together ---------- */
+  var GROUPS = {
+    collet:[["کولت", ["collet"]], ["بوش راهنما", ["guide"]]],
+    body:[["اینسرت روتراشی", ["achteck", "dcmt"]]],
+    thread:[["اینسرت ویرلینگ", ["whirl"]]],
+    flutes:[],
+    bore:[["اینسرت داخل‌تراش", ["r02"]]],
+    socket:[["هولدر بروچ", ["bmbr", "pcm"]], ["ابزار بروچ", ["broach"]]],
+    ithread:[["تردمیل", ["tm3", "utilis"]]],
+    partoff:[["اینسرت برش", ["cut15"]]]
+  };
+  for (var g in GROUPS) F[g].g = GROUPS[g];
+  PARTS.implant.over.collet = {g:[["کولت قطعات ریز", ["smallcollet"]], ["بوش راهنما", ["guide"]]]};   // 5 mm bar
   function specs(id){
     var s = SPEC[id], rows = [];
     if (s.b) rows.push(["برند", '<bdi lang="en">' + s.b + '</bdi>']);
@@ -1338,6 +1384,10 @@
   function meta(id){
     var s = SPEC[id], m = [s.b, s.c && s.c[1]].filter(Boolean);
     return m.length ? '<small class="meta"><bdi dir="ltr">' + m.join(" · ") + '</bdi></small>' : "";
+  }
+  function addBtn(id){
+    return '<button class="btn btn-o btn-sm add" data-add="' + id + '" aria-label="افزودن ' + P[id].n + ' به استعلام">' +
+      '<span class="plus" aria-hidden="true">+</span>افزودن به استعلام</button>';
   }
   function specText(id){ var s = SPEC[id]; return [s.b, s.c && s.c[1], s.u.replace(/<[^>]+>/g, "")].filter(Boolean).join(" "); }
 
