@@ -617,7 +617,8 @@
   </section>
 
   <!-- company facts: the live About page (since 1403, medical and dental tooling, Swiss-type, consultation, trade
-       fairs), the brands sold in the shop, and one still from Yonar's own AMB 2026 report -->
+       fairs; the user named EMO 2023, EMO 2025 and AMB 2026 on 2026-10-31), the brands sold in the shop, and one still
+       from Yonar's own AMB 2026 report -->
   <section class="block" id="trust">
     <div class="wrap trust">
       <div class="trust-copy">
@@ -629,11 +630,11 @@
           <li><b>از سال ۱۴۰۳</b><span>ابزار ماشین‌کاری برای تولید تجهیزات پزشکی و دندان‌پزشکی تأمین می‌کنیم.</span></li>
           <li><b>سوییس‌تایپ</b><span>ابزار، کولت و قطعات یدکی برای دستگاه‌هایی مانند <bdi lang="en">Citizen</bdi>، <bdi lang="en">Star</bdi> و <bdi lang="en">Tsugami</bdi>.</span></li>
           <li><b>مشاوره فنی</b><span>در انتخاب ابزار و دستگاه کنارتان هستیم؛ مستقیم در واتس‌اپ.</span></li>
-          <li><b>نمایشگاه‌های جهانی</b><span>تازه‌ترین دستگاه‌ها و روش‌های تولید را از نزدیک می‌بینیم و به تولیدکنندگان داخل کشور می‌رسانیم.</span></li>
+          <li><b>نمایشگاه‌های جهانی</b><span>در <bdi lang="en">EMO 2023</bdi>، <bdi lang="en">EMO 2025</bdi> و <bdi lang="en">AMB 2026</bdi> حضور داشته‌ایم؛ تازه‌ترین دستگاه‌ها و روش‌های تولید را از نزدیک می‌بینیم و به تولیدکنندگان داخل کشور می‌رسانیم.</span></li>
         </ul>
         <div class="brands">
           <p>برندهایی که تأمین می‌کنیم</p>
-          <ul lang="en"><li>SANDVIK</li><li>UTILIS</li><li>PCM</li><li>BRIGHETTI MECCANICA</li><li>ACHTECK</li></ul>
+          <ul lang="en"><li>SANDVIK</li><li>UTILIS</li><li>PCM</li><li>BRIGHETTI MECCANICA</li><li>ACHTECK</li><li>MADAULA</li></ul>
         </div>
       </div>
       <figure class="trust-photo">
@@ -923,7 +924,10 @@
   P.broach = {n:"ابزارهای بروچینگ", op:"broach", img:IMG+"yonartools-product-broaches-348x348.png", href:URLP+"%d8%a7%d9%86%d9%88%d8%a7%d8%b9-%d8%a7%d8%a8%d8%b2%d8%a7%d8%b1%d9%87%d8%a7%db%8c-%d8%a8%d8%b1%d9%88%da%86%db%8c%d9%86%da%af/"};
   P.guide = {n:"مقر اسپیندل سوییس‌تایپ", op:"holding", img:IMG+"yonartools-product-sub-spindel-hole-348x348.png", href:URLP+"%d9%85%d9%82%d8%b1-%d8%a7%d8%b3%d9%be%db%8c%d9%86%d8%af%d9%84-%d8%b3%d9%88%db%8c%db%8c%d8%b3-%d8%aa%d8%a7%db%8c%d9%be/"};
   P.smallcollet = {n:"کولت‌های خاص قطعات ریز", op:"holding", img:IMG+"yonartools-product-special-collets-for-small-parts-348x348.png", href:URLP+"%da%a9%d9%88%d9%84%d8%aa-%d9%87%d8%a7%db%8c-%d8%ae%d8%a7%d8%b5-%d9%85%d8%aa%d9%86%d8%a7%d8%b3%d8%a8-%d8%a8%d8%a7-%d9%82%d8%b7%d8%b9%d8%a7%d8%aa-%d8%b1%db%8c%d8%b2/"};
-  var OPS = {turning:"روتراشی", thread:"رزوه", broach:"بروچ", boring:"داخل‌تراشی", parting:"برش", holding:"نگه‌دارنده"};
+  var IMG10 = "https://yonartools.com/wp-content/uploads/2026/10/";
+  P.whirlhead = {n:"هدهای ویرلینگ", op:"thread", img:IMG10+"thread-whirling-image-3-348x348.webp", href:URLP+"whirling-heads/"};
+  P.livetool = {n:"ابزار زنده Madaula و PCM", op:"live", img:IMG+"home-cat-swiss-type-tooling-yellow-live-tool-348x348.jpg", href:URLP+"live-tools-madaula-pcm/"};
+  var OPS = {turning:"روتراشی", thread:"رزوه", broach:"بروچ", boring:"داخل‌تراشی", parting:"برش", holding:"نگه‌دارنده", live:"ابزار زنده"};
 
   /* ---------- part features (screw = CAD Part7, implant = BLT reference model; sizes measured from the 3D models) ---------- */
   var F = {
@@ -964,7 +968,7 @@
   function render(){
     var S = window.SECTIONS[part], s = S.viewBox[2] / 760;
     svg.style.setProperty("--s", s.toFixed(3));
-    partG.innerHTML = S.svg; badgeG.innerHTML = "";
+    partG.innerHTML = S.svg + S.extra; badgeG.innerHTML = "";   // extra: steps only this version has
     var legend = $("legend"); $("side").insertBefore($("panel"), $("kitBtn")); legend.innerHTML = "";
     PARTS[part].order.forEach(function(f, i){
       var c = S.badges[f], bg = el("g", {class:"badge", "data-f":f}, badgeG);
@@ -1001,9 +1005,9 @@
 
   /* ---------- 3D clip of each step (Blender renders in media/) ---------- */
   function showClip(f){
-    var src = "media3/" + part + "_" + f + ".mp4";
+    var src = "media3/" + part + "_" + f + ".mp4?v=1793459407";
     if (clip.getAttribute("src") !== src){
-      clip.setAttribute("poster", "media3/" + part + "_" + f + ".jpg");
+      clip.setAttribute("poster", "media3/" + part + "_" + f + ".jpg?v=1793459407");
       clip.setAttribute("src", src);
     }
     $("vtag").textContent = fa(PARTS[part].order.indexOf(f) + 1) + " · " + feat(f).op;
@@ -1354,23 +1358,54 @@
     bmbr:{b:"BRIGHETTI MECCANICA", c:["سایز", "G5 – G25"], u:"هد بروچ ثابت برای سوراخ کور یا عبوری"},
     broach:{u:"پروفیل داخلی چندضلعی، جاکلیدی و شیار"},
     guide:{u:"بوش راهنما؛ پشتیبانی میلگرد نزدیک نقطه برش"},
-    smallcollet:{c:["دقت بستن", "≤ 0.003 mm"], u:"بستن قطعات ریز پزشکی و دندانی"}
+    smallcollet:{c:["دقت بستن", "≤ 0.003 mm"], u:"بستن قطعات ریز پزشکی و دندانی"},
+    whirlhead:{u:"متناسب با دستگاه و پروفیل رزوه"},
+    livetool:{b:"MADAULA · PCM", u:"متناسب با مدل دستگاه، نوع اتصال و عملیات"}
   };
+  KW.whirlhead = "whirling head thread whirl ویرلینگ هد تردمیل";
+  KW.livetool = "live tool driven tool holder madaula pcm ابزار زنده هولدر دوار";
   KW.bmbr = "bm brighetti meccanica br g5 broach head holder بریگتی";
   KW.broach = "broach broaching hex torx keyway بروچ";
   KW.guide = "guide bush bushing spindle گاید بوش";
   KW.smallcollet = "collet small parts micro کولت ریز";
 
+  /* ---------- a Swiss-type lathe with a sub-spindle: the sub-spindle takes the part at part-off, and the cut end is
+     finished on the back before the ejector pushes the part out (the 3D clips show both steps) ---------- */
+  F.partoff.t = "انتقال به اسپیندل فرعی و جداسازی";
+  F.partoff.op = "اسپیندل فرعی و برش";
+  F.partoff.d = "اسپیندل فرعی هم‌دور با اسپیندل اصلی می‌چرخد و سرِ تمام‌شده قطعه را می‌گیرد؛ بعد تیغه قطعه را جدا می‌کند، بی‌آنکه قطعه بیفتد. تیغه باریک‌تر یعنی دورریز کمتر از میلگرد گران تیتانیوم.";
+  F.backwork = {t:"ماشین‌کاری پشت قطعه", op:"روتراشی روی اسپیندل فرعی", p:[],
+    d:"زائده کوچکی که جداسازی روی نوک قطعه می‌گذارد با یک عبور روتراشی برداشته می‌شود. بعد کولت باز می‌شود و پین پران قطعه را بیرون می‌دهد."};
+  /* drilling before the broach (screw) and before the thread mill (implant); the implant's tip flutes are milled on
+     the sub-spindle after part-off, where the apex is free */
+  F.drill = {t:"سوراخ مقدماتی بروچ", op:"مته‌کاری", p:[],
+    d:"پیش از بروچ، سوراخی کمی بزرگ‌تر از فاصله دو تخت شش‌گوش (حدود ۳٪) و عمیق‌تر از آن زده می‌شود تا بروچ فقط گوشه‌ها را بتراشد و براده جای کافی داشته باشد."};
+  PARTS.implant.over.drill = {t:"سوراخ رزوه M1.6",
+    d:"پیش از تردمیل، سوراخ رزوه M1.6 با مته ریز تا عمق کامل زده می‌شود؛ تردمیل فقط رزوه را می‌تراشد."};
+  F.flutes.op = "فرز روی اسپیندل فرعی";
+  F.flutes.d = "پس از جداسازی، اسپیندل فرعی ایمپلنت را نگه می‌دارد و سه شیار خودبُر نوک با فرز سرکروی ریز تراشیده می‌شود؛ اسپیندل فرعی برای هر شیار ۱۲۰ درجه می‌چرخد. نوک آزاد است، پس فرز بی‌مانع از انتهای قطعه بیرون می‌رود.";
+  PARTS.screw.order = ["collet", "body", "thread", "drill", "socket", "partoff", "backwork"];
+  PARTS.implant.order = ["collet", "body", "thread", "bore", "socket", "drill", "ithread", "partoff", "flutes", "backwork"];
+  PARTS.screw.m.drill = "Ø3.10 × 6.00 · 118°";
+  PARTS.implant.m.drill = "Ø1.44";
+  GCODE.screw.drill = "T0606 G83 Z-6.93 Q1.0 F0.03 ; pilot drill 3.1 x 6.0";
+  GCODE.implant.drill = "T0606 G83 Z-6.9 Q0.3 F0.01 ; drill 1.44 for M1.6";
+  GCODE.implant.flutes = "T3434 C120. ; sub-spindle, 3 flutes, 120 deg index";
+  GCODE.screw.partoff =GCODE.implant.partoff = "T0202 G01 X0.3 F0.015 ; sub-spindle pick-off, part-off";
+  GCODE.screw.backwork = GCODE.implant.backwork = "T3131 G01 X-0.1 F0.01 ; back facing, eject";
+
   /* ---------- the tools of each step, by role: tools in one group are alternatives, and the groups go together ---------- */
   var GROUPS = {
     collet:[["کولت", ["collet"]], ["بوش راهنما", ["guide"]]],
     body:[["اینسرت روتراشی", ["achteck", "dcmt"]]],
-    thread:[["اینسرت ویرلینگ", ["whirl"]]],
-    flutes:[],
+    thread:[["هد ویرلینگ", ["whirlhead"]], ["اینسرت ویرلینگ", ["whirl"]]],
+    flutes:[["ابزار زنده", ["livetool"]]],
+    drill:[],
     bore:[["اینسرت داخل‌تراش", ["r02"]]],
     socket:[["هولدر بروچ", ["bmbr", "pcm"]], ["ابزار بروچ", ["broach"]]],
-    ithread:[["تردمیل", ["tm3", "utilis"]]],
-    partoff:[["اینسرت برش", ["cut15"]]]
+    ithread:[["ابزار زنده", ["livetool"]], ["تردمیل", ["tm3", "utilis"]]],
+    partoff:[["اینسرت برش", ["cut15"]]],
+    backwork:[["اینسرت روتراشی", ["achteck", "dcmt"]]]
   };
   for (var g in GROUPS) F[g].g = GROUPS[g];
   PARTS.implant.over.collet = {g:[["کولت قطعات ریز", ["smallcollet"]], ["بوش راهنما", ["guide"]]]};   // 5 mm bar
