@@ -497,6 +497,12 @@
 #yh{display:block;position:relative;box-sizing:border-box;text-align:right;direction:rtl;width:100%;max-width:100%}
 #yh :where(h1,h2,h3,h4,p,ul,ol,figure,dl,dd,blockquote){margin-block:0}
 #yh .dock{z-index:100050}#yh .scrim{z-index:100060}#yh .tray{z-index:100061}#yh .zoom{z-index:100062}#yh .toast{z-index:100070}
+/* the quote tray's button was in the design's own header, which the site's header replaces: it floats at the bottom left
+   (the WhatsApp button is at the bottom right) from 1000 px up, and only once something is in the tray (the script hides it
+   when the tray is empty). Below 1000 px the bottom bar (.dock) does the same job. */
+#yh .tray-btn.fab{position:fixed;left:24px;right:auto;bottom:24px;margin:0;z-index:100050;box-shadow:var(--hi),var(--drop)}
+@media (max-width:999px){#yh .tray-btn.fab{display:none}}
+#yh .yh-main > section{scroll-margin-top:96px}
 
 </style>
 <div id="yh" class="at-intro" lang="fa" dir="rtl">
@@ -747,6 +753,7 @@
   </section>
 
 </div>
+<button class="tray-btn fab" id="trayBtn" aria-controls="tray" hidden>استعلام <span class="count" id="trayCount">۰</span></button>
 <div class="zoom" id="zoom" hidden role="dialog" aria-modal="true" aria-labelledby="zoomTitle">
   <div class="zoom-head"><p id="zoomTitle">برش طولی مدل سه‌بعدی · ابعاد به میلی‌متر</p><button class="x" id="zoomClose" aria-label="بستن">✕</button></div>
   <div class="zoom-body" id="zoomBody"></div>
