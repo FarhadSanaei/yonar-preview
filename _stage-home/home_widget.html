@@ -1220,7 +1220,7 @@ window.SECTIONS = {"screw": {"viewBox": [-59.8, -165.24, 865.7199999999999, 310.
     talk:["intro","talk","trust","explore","catalog","bench"]
   };
   function layout(intent){
-    var main = document.querySelector("main"), order = ORDER[intent || "none"], i = 0;
+    var main = YH.querySelector(".yh-main"), order = ORDER[intent || "none"], i = 0;
     order.forEach(function(id){
       main.appendChild(SECTIONS[id]);
       var k = SECTIONS[id].querySelector("[data-k]");
